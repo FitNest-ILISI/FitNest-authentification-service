@@ -1,5 +1,8 @@
 package fitnest.auth_service.web;
 
+import fitnest.auth_service.dto.AuthenticationResponse;
+import fitnest.auth_service.dto.AuthenticationResquest;
+import fitnest.auth_service.dto.RegisterRequest;
 import fitnest.auth_service.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

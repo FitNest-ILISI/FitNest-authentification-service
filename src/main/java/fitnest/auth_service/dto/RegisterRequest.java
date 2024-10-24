@@ -1,15 +1,19 @@
-package fitnest.auth_service.web;
+package fitnest.auth_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResquest {
+public class RegisterRequest {
+
+    private  String firstName;
+    private  String lastName;
     private  String email;
-    String password;
+    private  String password;
+
 }

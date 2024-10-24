@@ -2,9 +2,9 @@ package fitnest.auth_service.services;
 
 import fitnest.auth_service.Repos.UserRepo;
 import fitnest.auth_service.entities.User;
-import fitnest.auth_service.web.AuthenticationResponse;
-import fitnest.auth_service.web.AuthenticationResquest;
-import fitnest.auth_service.web.RegisterRequest;
+import fitnest.auth_service.dto.AuthenticationResponse;
+import fitnest.auth_service.dto.AuthenticationResquest;
+import fitnest.auth_service.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

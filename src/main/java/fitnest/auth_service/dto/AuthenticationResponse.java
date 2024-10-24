@@ -1,4 +1,4 @@
-package fitnest.auth_service.web;
+package fitnest.auth_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
