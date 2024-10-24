@@ -9,16 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
-public class authController {
+@RequestMapping("/auth")
+public class AuthController {
 
     @Autowired
     private  AuthenticationService authenticationService;
-
-    @GetMapping("/hello")
-    public String hello(){
-        return "hello there";
-    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register
