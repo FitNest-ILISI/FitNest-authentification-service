@@ -2,32 +2,32 @@ package fitnest.auth_service.services;
 
 import fitnest.auth_service.Repos.UserRepo;
 import fitnest.auth_service.entities.User;
+import fitnest.auth_service.entities.Interest; // Importing the Interest enum
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepo userRepo;
 
-    public ResponseEntity<User> findUserById(Long id) {
-        return userRepo.findById(id)
-                .map(ResponseEntity::ok)  // If user is found, return 200 with user
-                .orElseGet(() -> ResponseEntity.notFound().build());  // Else return 404
+    // Add a new user
+    public User addUser(User appuser) {
+        return userRepo.save(appuser);
     }
 
-    public ResponseEntity<User> findUserByEmail(String email) {
-        return userRepo.findByEmail(email)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    // Get user by ID
+    public Optional<User> getUser(Long userId) {
+        return userRepo.findById(userId);
     }
 
-    public ResponseEntity<List<User>> retrieveAllUsers() {
-        List<User> users = userRepo.findAll();
-        return ResponseEntity.ok(users);
+    // Get user interests
+    public List<Interest> getUserInterests(Long userId) {
+        return userRepo.findById(userId)
+                .map(User::getInterests)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
