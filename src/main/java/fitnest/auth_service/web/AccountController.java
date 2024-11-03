@@ -24,7 +24,6 @@ public class AccountController {
     public ResponseEntity<Account> getaccountByaccountname(@RequestParam String email) {
         return accountService.findAccountByUsername(email);
     }
-
     @GetMapping("/all")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return accountService.retrieveAllAccounts();
