@@ -1,8 +1,8 @@
-package fitnest.auth_service.web;
+package fitnest.auth_service.controllers;
 
 import fitnest.auth_service.entities.Interest;
 import fitnest.auth_service.entities.User;
-import fitnest.auth_service.services.UserService;
+import fitnest.auth_service.services.IUserService; // Import de l'interface
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService; // Utilisation de l'interface
 
     // Endpoint to add a new user
     @PostMapping("/add")

@@ -1,6 +1,6 @@
 package fitnest.auth_service.config;
 
-import fitnest.auth_service.services.JwtService;
+import fitnest.auth_service.services.ImplServices.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

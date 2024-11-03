@@ -1,27 +1,25 @@
-package fitnest.auth_service.web;
+package fitnest.auth_service.controllers;
 
 import fitnest.auth_service.dto.*;
-import fitnest.auth_service.services.AuthService;
+import fitnest.auth_service.services.IAuthService; // Import de l'interface
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    private AuthService authenticationService;
+    private IAuthService authenticationService; // Utilisation de l'interface
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register
-            (@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register
-            (@RequestBody AuthenticationResquest request){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationResquest request) { // Correction de l'annotation
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 

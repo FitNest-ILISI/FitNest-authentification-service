@@ -1,7 +1,9 @@
-/*package fitnest.auth_service.web
+package fitnest.auth_service.web
 
-import fitnest.auth_service.entities.Account
-import fitnest.auth_service.services.AccountService
+import fitnest.auth_service.entities.Interest
+import fitnest.auth_service.entities.User
+import fitnest.auth_service.services.IUserService
+import fitnest.auth_service.controllers.UserController
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,12 +15,13 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.*
 
-internal class AccountControllerTest {
+internal class UserControllerTest {
+
     @InjectMocks
-    private val userController: UserController? = null
+    private lateinit var userController: UserController
 
     @Mock
-    private val userService: AccountService? = null
+    private lateinit var userService: IUserService
 
     @BeforeEach
     fun setUp() {
@@ -26,42 +29,50 @@ internal class AccountControllerTest {
     }
 
     @Test
-    fun testGetUserById() {
-        val user = Account()
+    fun testAddUser() {
+        val user = User()
         user.id = 1L
 
-        Mockito.`when`(userService!!.findUserById(1L)).thenReturn(ResponseEntity.of(Optional.of(user)))
+        Mockito.`when`(userService.addUser(user)).thenReturn(user)
 
-        val result = userController!!.getUserById(1L)
+        val result = userController.addUser(user)
 
         Assertions.assertEquals(HttpStatus.OK, result.statusCode)
-        Assertions.assertEquals(1L, result.body.id)
+        Assertions.assertEquals(user, result.body)
     }
 
     @Test
-    fun testGetUserByEmail() {
-        val user = Account()
-        user.email = "test@example.com"
+    fun testGetUserById() {
+        val user = User()
+        user.id = 1L
 
-        Mockito.`when`(userService!!.findUserByEmail("test@example.com")).thenReturn(ResponseEntity.of(Optional.of(user)))
+        Mockito.`when`(userService.getUser(1L)).thenReturn(Optional.of(user))
 
-        val result = userController!!.getUserByEmail("test@example.com")
+        val result = userController.getUser(1L)
 
         Assertions.assertEquals(HttpStatus.OK, result.statusCode)
-        Assertions.assertEquals("test@example.com", result.body.email)
+        Assertions.assertEquals(1L, result.body?.id)
     }
 
     @Test
-    fun testGetAllUsers() {
-        val users: MutableList<Account> = ArrayList()
-        users.add(Account())
-        users.add(Account())
+    fun testGetUserById_NotFound() {
+        Mockito.`when`(userService.getUser(2L)).thenReturn(Optional.empty())
 
-        Mockito.`when`(userService!!.retrieveAllUsers()).thenReturn(ResponseEntity.ok(users))
+        val result = userController.getUser(2L)
 
-        val result = userController!!.allUsers
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, result.statusCode)
+    }
+
+    @Test
+    fun testGetUserInterests() {
+        val userId = 1L
+        val interests = listOf(Interest.HIKE ,Interest.SWIM)
+
+        Mockito.`when`(userService.getUserInterests(userId)).thenReturn(interests)
+
+        val result = userController.getUserInterests(userId)
 
         Assertions.assertEquals(HttpStatus.OK, result.statusCode)
-        Assertions.assertEquals(2, result.body.size)
+        Assertions.assertEquals(interests, result.body)
     }
-}*/
+}
