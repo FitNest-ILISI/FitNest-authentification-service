@@ -4,7 +4,7 @@
 import fitnest.auth_service.dto.AuthenticationResquest;
 import fitnest.auth_service.dto.AuthenticationResponse;
 import fitnest.auth_service.dto.RegisterRequest;
-import fitnest.auth_service.services.AuthService;
+import fitnest.auth_service.services.IServices.AuthService;
 import fitnest.auth_service.web.AuthController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

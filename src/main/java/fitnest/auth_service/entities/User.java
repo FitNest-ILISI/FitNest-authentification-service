@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.List;
@@ -20,11 +19,11 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
-    private String IDFace;
-    private String IDBack;
-    private  String avatar;
-    private Long phonenumber ;
-    private Date birthdate;
+    private String idFace;
+    private String idBack;
+    private String profilePicture;
+    private Long phoneNumber;
+    private Date birthDate;
     private String gender ;
     private String description;
 

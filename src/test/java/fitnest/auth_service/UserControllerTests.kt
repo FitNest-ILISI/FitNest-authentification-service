@@ -1,7 +1,7 @@
 /*package fitnest.auth_service.web
 
 import fitnest.auth_service.entities.Account
-import fitnest.auth_service.services.AccountService
+import fitnest.auth_service.services.IServices.AccountService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
