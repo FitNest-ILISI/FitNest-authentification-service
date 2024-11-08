@@ -1,11 +1,8 @@
-/*
-* package fitnest.auth_service;
+package fitnest.auth_service;
 
-import fitnest.auth_service.dto.AuthenticationResquest;
-import fitnest.auth_service.dto.AuthenticationResponse;
-import fitnest.auth_service.dto.RegisterRequest;
-import fitnest.auth_service.services.IServices.AuthService;
-import fitnest.auth_service.web.AuthController;
+import fitnest.auth_service.controllers.AuthController;
+import fitnest.auth_service.dto.*;
+import fitnest.auth_service.services.IAuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,15 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class AuthControllerTests {
+public class AuthControllerTests {
 
     @InjectMocks
     private AuthController authController;
 
     @Mock
-    private AuthService authenticationService;
+    private IAuthService authenticationService;
 
     @BeforeEach
     void setUp() {
@@ -50,10 +47,36 @@ class AuthControllerTests {
 
         when(authenticationService.authenticate(authRequest)).thenReturn(response);
 
-        ResponseEntity<AuthenticationResponse> result = authController.register(authRequest);
+        ResponseEntity<AuthenticationResponse> result = authController.authenticate(authRequest);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("jwt-token", result.getBody().getToken());
     }
+
+    @Test
+    void testRequestPasswordReset() {
+        PasswordResetRequest resetRequest = new PasswordResetRequest();
+        resetRequest.setUsername("testUser");
+
+        doNothing().when(authenticationService).sendPasswordResetToken(resetRequest.getUsername());
+
+        ResponseEntity<String> result = authController.requestPasswordReset(resetRequest);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Password reset token sent.", result.getBody());
+    }
+
+    @Test
+    void testResetPassword() {
+        PasswordUpdateRequest updateRequest = new PasswordUpdateRequest();
+        updateRequest.setToken("reset-token");
+        updateRequest.setNewPassword("newPassword123");
+
+        doNothing().when(authenticationService).resetPassword(updateRequest.getToken(), updateRequest.getNewPassword());
+
+        ResponseEntity<String> result = authController.resetPassword(updateRequest);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Password has been reset successfully.", result.getBody());
+    }
 }
-*/
