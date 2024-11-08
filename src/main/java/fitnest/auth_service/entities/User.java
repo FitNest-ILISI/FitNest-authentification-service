@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -19,20 +19,26 @@ public class User {
     private Long id;
     private String firstName;
     private String lastName;
-    private String idFace;
-    private String idBack;
-    private String profilePicture;
     private Long phoneNumber;
-    private Date birthDate;
-    private String gender ;
+
+    // Stocker la date de naissance comme jour, mois, année
+    private LocalDate dateBirth;
+    private String gender;
     private String description;
 
-    @ElementCollection(targetClass = Interest.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "interests",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @Column(name = "id_face",columnDefinition = "TEXT")
+    private String idFace;  // Changer en String
+    @Column(name = "id_back",columnDefinition = "TEXT")
+    private String idBack;  // Changer en String
+    @Column(name = "profile_picture",columnDefinition = "TEXT")
+    private String profilePicture;  // Changer en String
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true)
+    private Account account;
+
+    @ElementCollection
+    @CollectionTable(name = "interests", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @Column(name = "interest")
-    private List<Interest> interests;
-
-
+    private List<String> interests;
 }

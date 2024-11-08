@@ -23,9 +23,9 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService()
-    {
-        return username -> userRepo.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("no user match this email " + username));
+    public UserDetailsService userDetailsService() {
+        return username -> userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No user matches this username: " + username));
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {

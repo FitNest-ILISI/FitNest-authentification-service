@@ -2,14 +2,14 @@ package fitnest.auth_service.services;
 
 
 import fitnest.auth_service.dto.AuthenticationResponse;
-import fitnest.auth_service.dto.AuthenticationResquest;
+import fitnest.auth_service.dto.AuthenticationRequest;
 import fitnest.auth_service.dto.RegisterRequest;
 
 public interface IAuthService {
 
     AuthenticationResponse register(RegisterRequest request);
 
-    AuthenticationResponse authenticate(AuthenticationResquest request);
+    AuthenticationResponse authenticate(AuthenticationRequest request);
 
     void sendPasswordResetToken(String username);
 

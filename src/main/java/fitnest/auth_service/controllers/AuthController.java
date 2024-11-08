@@ -5,6 +5,7 @@ import fitnest.auth_service.services.IAuthService; // Import de l'interface
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
@@ -15,23 +16,53 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        try {
+            AuthenticationResponse response = authenticationService.register(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Si une erreur survient, retournez une réponse avec un message d'erreur dans AuthenticationResponse
+            AuthenticationResponse errorResponse = new AuthenticationResponse();
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationResquest request) { // Correction de l'annotation
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        try {
+            AuthenticationResponse response = authenticationService.authenticate(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    AuthenticationResponse.builder()
+                            .token(null)
+                            .user_id(null)
+                            .build()
+            );
+        }
     }
 
+
     @PostMapping("/request-password-reset")
-    public ResponseEntity<String> requestPasswordReset(@RequestBody PasswordResetRequest request) {
-        authenticationService.sendPasswordResetToken(request.getUsername());
-        return ResponseEntity.ok("Password reset token sent.");
+    public ResponseEntity<AuthenticationResponse> requestPasswordReset(@RequestBody PasswordResetRequest request) {
+        try {
+            authenticationService.sendPasswordResetToken(request.getUsername());
+            AuthenticationResponse successResponse = new AuthenticationResponse();
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            AuthenticationResponse errorResponse = new AuthenticationResponse();
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordUpdateRequest request) {
-        authenticationService.resetPassword(request.getToken(), request.getNewPassword());
-        return ResponseEntity.ok("Password has been reset successfully.");
+    public ResponseEntity<AuthenticationResponse> resetPassword(@RequestBody PasswordUpdateRequest request) {
+        try {
+            authenticationService.resetPassword(request.getToken(), request.getNewPassword());
+            AuthenticationResponse successResponse = new AuthenticationResponse();
+            return ResponseEntity.ok(successResponse);
+        } catch (Exception e) {
+            AuthenticationResponse errorResponse = new AuthenticationResponse();
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 }

@@ -20,8 +20,13 @@ public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Ensure this is unique to the Account
-    private String username;
     private String password;
+    @Column(unique = true)
+    private String username;
+
+    @Column(unique = true)
+    private String email;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
