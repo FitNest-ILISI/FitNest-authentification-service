@@ -38,7 +38,7 @@ public class AccountContollerTests {
 
         when(accountService.findAccountById(1L)).thenReturn(ResponseEntity.of(Optional.of(account)));
 
-        ResponseEntity<Account> result = accountController.getUserAccountById(1L);
+        ResponseEntity<Account> result = (ResponseEntity<Account>) accountController.getUserAccountById(1L);
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(1L, result.getBody().getId());
@@ -51,7 +51,7 @@ public class AccountContollerTests {
 
         when(accountService.findAccountByUsername("test@example.com")).thenReturn(ResponseEntity.of(Optional.of(account)));
 
-        ResponseEntity<Account> result = accountController.getAccountByUsername("test@example.com");
+        ResponseEntity<Account> result = (ResponseEntity<Account>) accountController.getAccountByUsername("test@example.com");
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("test@example.com", result.getBody().getUsername());
@@ -65,7 +65,7 @@ public class AccountContollerTests {
 
         when(accountService.retrieveAllAccounts()).thenReturn(ResponseEntity.ok(accounts));
 
-        ResponseEntity<List<Account>> result = accountController.getAllAccounts();
+        ResponseEntity<List<Account>> result = (ResponseEntity<List<Account>>) accountController.getAllAccounts();
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(2, result.getBody().size());
