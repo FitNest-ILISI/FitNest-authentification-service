@@ -1,7 +1,9 @@
 package fitnest.auth_service.entities;
 
+import fitnest.auth_service.models.AuthEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "_user")
+@Builder
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +30,9 @@ public class User {
     private Date birthDate;
     private String gender ;
     private String description;
+    @ElementCollection
+    @Transient
+    private List<AuthEvent> createdEvents;
 
     @ElementCollection(targetClass = Interest.class)
     @Enumerated(EnumType.STRING)
@@ -34,5 +41,7 @@ public class User {
     @Column(name = "interest")
     private List<Interest> interests;
 
-
+    @OneToOne(cascade = CascadeType.ALL) // Cascade allows changes to be automatically reflected in the related entity
+    @JoinColumn(name = "account_id", referencedColumnName = "id") // Specifies the foreign key column in User table
+    private Account account;
 }

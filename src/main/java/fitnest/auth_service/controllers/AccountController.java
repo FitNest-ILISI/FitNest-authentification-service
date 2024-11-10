@@ -2,12 +2,13 @@ package fitnest.auth_service.controllers;
 
 import fitnest.auth_service.entities.Account;
 import fitnest.auth_service.services.IAccountService; // Import the interface
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/account")
 @RequiredArgsConstructor

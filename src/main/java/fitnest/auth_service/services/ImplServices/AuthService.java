@@ -23,8 +23,9 @@ public class AuthService implements IAuthService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+
         var user = Account.builder()
-                .username(request.getUsename())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         accountRepo.save(user);
