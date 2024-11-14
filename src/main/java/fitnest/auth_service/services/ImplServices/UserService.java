@@ -7,6 +7,8 @@ import fitnest.auth_service.entities.Account;
 import fitnest.auth_service.entities.User;
 import fitnest.auth_service.services.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -98,6 +100,12 @@ public class UserService implements IUserService {
 
         // Sauvegarde les modifications dans la base de données
         return userRepo.save(user);
+    }
+
+    @Nullable
+    @Override
+    public User addUser(@NotNull User user) {
+        return null;
     }
 
 }

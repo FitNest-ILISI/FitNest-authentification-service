@@ -1,12 +1,12 @@
 package fitnest.auth_service.controllers;
 
-import fitnest.auth_service.clients.AuthEventController;
 import fitnest.auth_service.dto.UserDto;
 import fitnest.auth_service.entities.Interest;
 import fitnest.auth_service.entities.User;
-import fitnest.auth_service.models.AuthEvent;
 import fitnest.auth_service.services.IUserService; // Import de l'interface
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final IUserService userService; // Utilisation de l'interface
-    private final AuthEventController eventController;
 
     // Injection de ObjectMapper pour gérer la désérialisation JSON
     @Autowired
@@ -40,21 +39,10 @@ public class UserController {
     // Endpoint to get a user by ID
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        Optional<User> userOptional = userService.getUser(userId);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            List<AuthEvent> associatedEvents = eventController.findEventsByIdCoordinator(userId);
-
-            user.setCreatedEvents(associatedEvents);
-
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Optional<User> user = userService.getUser(userId);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 
     // Endpoint to get a user's interests
     @GetMapping("/{userId}/interests")
@@ -96,4 +84,8 @@ public class UserController {
     }
 
 
+    @Nullable
+    public ResponseEntity<User> addUser(@NotNull User user) {
+        return null;
+    }
 }

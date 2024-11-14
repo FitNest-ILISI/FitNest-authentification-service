@@ -16,23 +16,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private  final JwtAuthFilter jwtAuthFilter;
-    private   final AuthenticationProvider authenticationProvider;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/**").authenticated() // Adjust this to match your public endpoints
-                        .anyRequest().authenticated()
+                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/api/events/create").permitAll()// This allows access to /user/5 without authentication
+                        .anyRequest().authenticated()  // All other requests require authentication
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Ensure stateless sessions
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless sessions
                 )
-                .authenticationProvider(authenticationProvider) // Set the authentication provider
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add the JWT filter before the default authentication filter
+                .authenticationProvider(authenticationProvider)  // Set authentication provider
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);  // Add JWT filter
 
         return http.build();
     }

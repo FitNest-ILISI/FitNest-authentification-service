@@ -9,6 +9,7 @@ import fitnest.auth_service.dto.RegisterRequest;
 import fitnest.auth_service.dto.UserDto;
 import fitnest.auth_service.entities.Account;
 import fitnest.auth_service.entities.User;
+import fitnest.auth_service.exceptions.UserAlreadyExistsException;
 import fitnest.auth_service.services.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,13 +27,18 @@ public class AuthService implements IAuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
-        if (accountRepo.findByEmail(request.getEmail()).isPresent() ||
-                accountRepo.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username or email already exists");
+    public void checkIfUserOrEmailExists(String email, String username) {
+        if (accountRepo.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
+        if (accountRepo.findByUsername(username).isPresent()) {
+            throw new UserAlreadyExistsException("Username already exists");
+        }
+    }
 
+    @Override
+    public AuthenticationResponse register(RegisterRequest request) {
         var user = Account.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))

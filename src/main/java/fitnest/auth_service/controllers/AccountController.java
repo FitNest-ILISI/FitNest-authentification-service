@@ -1,6 +1,6 @@
 package fitnest.auth_service.controllers;
 
-import fitnest.auth_service.services.IAccountService; // Import the interface
+import fitnest.auth_service.services.IAccountService; // Import de l'interface
 import fitnest.auth_service.dto.ErrorResponse;  // Import de ErrorResponse
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

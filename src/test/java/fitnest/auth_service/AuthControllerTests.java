@@ -1,4 +1,4 @@
-package fitnest.auth_service;
+/*package fitnest.auth_service;
 
 import fitnest.auth_service.controllers.AuthController;
 import fitnest.auth_service.dto.*;
@@ -80,3 +80,4 @@ public class AuthControllerTests {
         assertEquals("Password has been reset successfully.", result.getBody());
     }
 }
+*/

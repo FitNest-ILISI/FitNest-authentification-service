@@ -7,6 +7,8 @@ import fitnest.auth_service.dto.RegisterRequest;
 
 public interface IAuthService {
 
+    void checkIfUserOrEmailExists(String email, String username);
+
     AuthenticationResponse register(RegisterRequest request);
 
     AuthenticationResponse authenticate(AuthenticationRequest request);

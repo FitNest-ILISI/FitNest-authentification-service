@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 
 @CrossOrigin(origins = "*")
-@FeignClient(name = "EVENT-SERVICE")
+@FeignClient(name = "EVENT-SERVICE", url = "http://localhost:8888")
 public interface AuthEventController {
     @GetMapping("/api/events/associated/{userid}")
     ArrayList<AuthEvent> findEventsByIdCoordinator(@PathVariable("userid") Long userid);

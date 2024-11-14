@@ -1,9 +1,7 @@
 package fitnest.auth_service.entities;
 
-import fitnest.auth_service.models.AuthEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,8 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "_user")
-@Builder
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +25,6 @@ public class User {
     private LocalDate dateBirth;
     private String gender;
     private String description;
-    @ElementCollection
-    @Transient
-    private List<AuthEvent> createdEvents;
 
     @Column(name = "id_face",columnDefinition = "TEXT")
     private String idFace;  // Changer en String

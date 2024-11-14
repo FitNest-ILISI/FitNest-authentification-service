@@ -58,18 +58,4 @@ public class Account implements UserDetails {
     public boolean isEnabled() {
         return true; // Implement as per your logic
     }
-    /* <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>3.3.5</version>
-        </dependency>
-     */
 }
