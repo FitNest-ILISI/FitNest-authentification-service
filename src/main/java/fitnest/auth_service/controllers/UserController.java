@@ -1,5 +1,7 @@
 package fitnest.auth_service.controllers;
 
+import fitnest.auth_service.clients.EventFeignClient;
+import fitnest.auth_service.dto.EventDto;
 import fitnest.auth_service.dto.UserDto;
 import fitnest.auth_service.entities.Interest;
 import fitnest.auth_service.entities.User;
@@ -17,9 +19,10 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
+    private final EventFeignClient eventFeignClient;
 
     private final IUserService userService; // Utilisation de l'interface
 
@@ -35,9 +38,8 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
-
     // Endpoint to get a user by ID
-    @GetMapping("/{userId}")
+    @GetMapping("/getUserById/{userId}")
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
         Optional<User> user = userService.getUser(userId);
         return user.map(ResponseEntity::ok)
@@ -82,7 +84,15 @@ public class UserController {
         return username.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    @GetMapping("/{userId}/events")
+    public ResponseEntity<List<EventDto>> getUserEvents(@PathVariable Long userId) {
+        try {
+            List<EventDto> events = eventFeignClient.getEventsByUserId(userId);
+            return ResponseEntity.ok(events);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
     @Nullable
     public ResponseEntity<User> addUser(@NotNull User user) {

@@ -46,4 +46,5 @@ public class AccountController {
             return ResponseEntity.badRequest().body(errorResponse);  // Retourner une réponse avec l'objet ErrorResponse
         }
     }
+
 }
